@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+             
+                <div class="d-flex justify-content-between align-items-center">
+                    <span id="content-subject"></span>
+                    <button class="btn btn-outline-primary" onclick="likeContent()"><i class="bi bi-hand-thumbs-up"></i> Thích (<span id="like-count">0</span>)</button>
+                </div>
+            
+            </div>
+            <div class="col-md-4">
+                <div class="comments-section">
+                    <h4>Bình luận</h4>
+                    <div id="comments-container" class="comments-container mb-3 p-3 border rounded shadow-sm" style="height: 500px; overflow-y: auto; display: flex; flex-direction: column;">
+                        <div id="comments-list" style="width: 100%;">
+                                <div class="comment mb-3 d-flex align-items-start">
+                                    <strong class="me-2"></strong>
+                                    <span class="word-wrap"></span>
+                                </div>
+                        </div>
+                    </div>
+                    <form id="comment-form" class="form-group d-flex">
+                       
+                        <textarea class="form-control" name="comment" id="comment-input" rows="1" placeholder="Viết bình luận..."></textarea>
+                        <button class="btn btn-primary ml-2" type="submit"><i class="bi bi-send"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<style>
+    .word-wrap {
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        word-break: break-word;
+        flex-grow: 1;
+    }
+    .btn-primary {
+        margin-top: auto;
+    }
+    .comments-container {
+        display: flex;
+        flex-direction: column-reverse; 
+    }
+    .comment strong {
+        flex-shrink: 0;
+    }
+    .comment {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+</style>
+
+<script>
+    function displaySystemMessage() {
+        setInterval(function() {
+            const commentsList = document.getElementById('comments-list');
+            const systemMessage = document.createElement('div');
+            systemMessage.classList.add('comment', 'mb-3', 'd-flex', 'align-items-start');
+            systemMessage.innerHTML = `
+                <strong class="me-2">System:</strong>
+                <span class="word-wrap">Hello World!</span>
+            `;
+            commentsList.appendChild(systemMessage); 
+
+            scrollToBottom(); 
+        }, 5000); 
+    }
+
+    document.getElementById('comment-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const commentInput = document.getElementById('comment-input');
+        const commentText = commentInput.value.trim();
+
+        if (commentText) {
+            const commentsList = document.getElementById('comments-list');
+            const newComment = document.createElement('div');
+            newComment.classList.add('comment', 'mb-3', 'd-flex', 'align-items-start');
+            newComment.innerHTML = `
+                <strong class="me-2">Me:</strong>
+                <span class="word-wrap">${commentText}</span>
+            `;
+            commentsList.appendChild(newComment); 
+            commentInput.value = '';
+
+            scrollToBottom(); 
+        }
+    });
+
+displaySystemMessage();
+    let likeCount = 0;
+
+    function likeContent() {
+        likeCount++;
+        document.getElementById('like-count').textContent = likeCount;
+    }
+
+   
+    function scrollToBottom() {
+        const commentsContainer = document.getElementById('comments-container');
+        commentsContainer.scrollTop = commentsContainer.scrollHeight;
+    }
+
+    document.addEventListener('DOMContentLoaded', scrollToBottom);
+
+
+    const currentPromise = new Promise((resolve, reject) => {
+        let conditional = true;
+
+        if (conditional) {
+            setTimeout(() => {
+                resolve('Success');
+            }, 3000);
+        } else {
+            reject('error');
+        }
+    });
+
+    currentPromise
+        .then((data) => {
+            console.log(data);
+            console.log('hi');
+        })
+        .catch((err) => {
+            console.log(err);
+            
+        });
+
+
+</script>
+
+
+
